@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WebSocket Test</title>
+</head>
+<body>
+  <h1>WebSocket Test Page</h1>
+  <div id="status"></div>
+
+  <script>
+    // Connect to the WebSocket server
+    const ws = new WebSocket('ws://ws.orderbox.local');
+
+    ws.onopen = () => {
+      // Create a new title element when connection works
+      const title = document.createElement('h2');
+      title.textContent = "✅ WebSocket Connected!";
+      document.body.appendChild(title);
+
+      // Optional: also update a status div
+      document.getElementById('status').textContent = "Connection established at " + new Date().toLocaleTimeString();
+    };
+
+    ws.onmessage = (msg) => {
+      console.log('Received:', msg.data);
+    };
+
+    ws.onclose = () => {
+      const title = document.createElement('h2');
+      title.textContent = "❌ WebSocket Disconnected";
+      document.body.appendChild(title);
+    };
+
+    ws.onerror = (err) => {
+      console.error('WebSocket error', err);
+      const title = document.createElement('h2');
+      title.textContent = "⚠️ WebSocket Error";
+      document.body.appendChild(title);
+    };
+  </script>
+</body>
+</html>

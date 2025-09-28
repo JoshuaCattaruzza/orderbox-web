@@ -1,0 +1,58 @@
+services:
+  db:
+    image: mysql:8.1
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wp_user
+      MYSQL_PASSWORD: wp_pass
+      MYSQL_ROOT_PASSWORD: root_pass
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - orderbox-net
+
+  reverse-proxy:
+    image: nginx:stable
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./static:/usr/share/nginx/html/static 
+      - ./certs:/etc/ssl
+    depends_on:
+      - wordpress
+    networks:
+      - orderbox-net
+
+  websocket:
+    build: ./websocket
+    container_name: websocket
+    networks:
+      - orderbox-net
+
+  wordpress:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_PORT: 3306
+      WORDPRESS_DB_USER: wp_user
+      WORDPRESS_DB_PASSWORD: wp_pass
+      WORDPRESS_DB_NAME: wordpress
+      SITE_URL: http://orderbox.local
+    volumes:
+      - ./wp-content:/var/www/html/wp-content
+    depends_on:
+      - db
+    networks:
+      - orderbox-net
+
+volumes:
+  db_data:
+  wp-content:
+
+networks:
+  orderbox-net:
+    driver: bridge

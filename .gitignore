@@ -1,0 +1,43 @@
+# WordPress core
+/wp-admin/
+/wp-includes/
+/index.php
+/license.txt
+/readme.html
+/wp-config-sample.php
+
+# Ignore all plugins by default
+/wp-content/plugins/*
+
+# Except custom plugins (replace 'my-custom-plugin' with your folder name)
+/wp-content/plugins/my-custom-plugin/
+
+# Ignore standard themes (if using custom theme, remove the exception)
+/wp-content/themes/*
+
+# Except custom theme
+/wp-content/themes/my-custom-theme/
+
+# Ignore uploads (optional, usually large)
+/wp-content/uploads/
+
+# Ignore other content directories
+/wp-content/fonts/
+/wp-content/index.php
+
+# Ignore cache, logs, and temporary files
+/wp-content/cache/
+wp-content/debug.log
+*.log
+
+# Ignore OS and editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.idea/
+.vscode/
+
+# Docker volumes and container-specific files
+docker-compose.override.yml
+.env
