@@ -9,11 +9,17 @@
 # Ignore all plugins by default
 /wp-content/plugins/*
 
+# But keep the directory itself
+!/wp-content/plugins/.gitkeep
+
+# Ignore all themes by default
+/wp-content/themes/*
+
+# But keep the directory itself
+!/wp-content/themes/.gitkeep
+
 # Except custom plugins (replace 'my-custom-plugin' with your folder name)
 /wp-content/plugins/my-custom-plugin/
-
-# Ignore standard themes (if using custom theme, remove the exception)
-/wp-content/themes/*
 
 # Except custom theme
 /wp-content/themes/my-custom-theme/
