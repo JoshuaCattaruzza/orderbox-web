@@ -12,10 +12,6 @@ RUN apt-get update && apt-get install -y \
 RUN mkdir -p /var/www/html/wp-content/plugins \
     /var/www/html/wp-content/themes
 
-# Copy custom plugins and themes
-COPY wp-content/plugins /var/www/html/wp-content/plugins
-COPY wp-content/themes /var/www/html/wp-content/themes
-
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html/wp-content
 
