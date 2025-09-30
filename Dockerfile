@@ -9,6 +9,9 @@ RUN apt-get update && apt-get install -y \
     default-mysql-client \
     && rm -rf /var/lib/apt/lists/*
 
+RUN mkdir -p /var/www/html/wp-content/plugins \
+    /var/www/html/wp-content/themes
+
 # Copy custom plugins and themes
 COPY wp-content/plugins /var/www/html/wp-content/plugins
 COPY wp-content/themes /var/www/html/wp-content/themes
