@@ -47,3 +47,6 @@ Thumbs.db
 # Docker volumes and container-specific files
 docker-compose.override.yml
 .env
+
+# Nginx SSL certs
+nginx/certs/
