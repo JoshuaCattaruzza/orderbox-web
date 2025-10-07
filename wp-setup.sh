@@ -13,6 +13,10 @@ ADMIN_USER=${ADMIN_USER:-admin}
 ADMIN_PASS=${ADMIN_PASS:-password}
 ADMIN_EMAIL=${ADMIN_EMAIL:-admin@example.com}
 
+# Step 0: Initialize WordPress files without starting Apache
+docker-entrypoint.sh php
+
+# Step 1: Wait for database
 echo "Waiting for database at $DB_HOST:$DB_PORT..."
 until mysql -h"$DB_HOST" \
             -P"$DB_PORT" \
@@ -24,8 +28,7 @@ until mysql -h"$DB_HOST" \
   sleep 5
 done
 
-
-# Install WordPress if not installed
+# Step 2: Install WordPress if not installed
 if ! wp core is-installed --path=/var/www/html --allow-root; then
   echo "Running wp core install..."
   wp core install \
@@ -38,12 +41,12 @@ if ! wp core is-installed --path=/var/www/html --allow-root; then
     --allow-root
 fi
 
-# Install plugins/themes
+# Step 3: Install plugins/themes
 wp plugin install woocommerce --activate --path=/var/www/html --allow-root
 wp plugin install woocommerce-gateway-stripe --activate --path=/var/www/html --allow-root
 wp plugin install food-online-for-woocommerce --activate --path=/var/www/html --allow-root
 wp plugin install woocommerce-payments --activate --path=/var/www/html --allow-root
 wp theme install foodie-world --activate --path=/var/www/html --allow-root
 
-# Start Apache in foreground
+# Step 4: Start Apache
 exec docker-entrypoint.sh apache2-foreground
